@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rohit Shrestha — Cybersecurity & BCSIT</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0e0e0e;
+      --bg2: #151515;
+      --bg3: #1c1c1c;
+      --border: #2a2a2a;
+      --accent: #c8f04a;
+      --accent2: #a8d93a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --faint: #444;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(14,14,14,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      font-family: 'DM Mono', monospace;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      gap: 4rem;
+      padding-top: 80px;
+    }
+
+    .hero-left {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.9s ease forwards 0.2s;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.25s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0e0e;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* ── HERO RIGHT — terminal card ── */
+    .hero-right {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 0.9s ease forwards 0.5s;
+    }
+
+    .terminal {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .terminal-bar {
+      background: var(--bg2);
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .terminal-title {
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 0.72rem;
+      color: var(--faint);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-size: 0.82rem;
+      line-height: 2;
+    }
+
+    .t-prompt { color: var(--accent); }
+    .t-cmd { color: var(--text); }
+    .t-comment { color: var(--faint); }
+    .t-key { color: #7dd3fc; }
+    .t-val { color: #fca5a5; }
+    .t-str { color: #86efac; }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+
+    /* ── INFO GRID ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .info-cell {
+      background: var(--bg2);
+      padding: 1.6rem;
+    }
+
+    .info-cell-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--faint);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .info-cell-val {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    /* ── OBJECTIVE ── */
+    .objective-block {
+      max-width: 780px;
+      border-left: 3px solid var(--accent);
+      padding-left: 2rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+
+    /* ── EDUCATION TABLE ── */
+    .edu-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .edu-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-align: left;
+      padding: 0.8rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edu-table td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .edu-table tr:last-child td { border-bottom: none; }
+    .edu-table td:first-child { color: var(--text); font-weight: 500; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-done { background: rgba(200,240,74,0.12); color: var(--accent); }
+    .badge-running { background: rgba(251,191,36,0.12); color: #fbbf24; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .skill-group h3 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.4rem 0.9rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,240,74,0.06);
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.8rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover { border-color: var(--faint); transform: translateY(-3px); }
+    .project-card:hover::before { transform: scaleX(1); }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--faint);
+      margin-bottom: 0.8rem;
+    }
+
+    .project-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--text);
+      margin-bottom: 0.7rem;
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .project-tech {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tech-chip {
+      background: rgba(200,240,74,0.08);
+      color: var(--accent);
+      border: 1px solid rgba(200,240,74,0.2);
+      padding: 0.15rem 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      border-radius: 2px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 0; }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 2rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .exp-item.visible { opacity: 1; transform: translateX(0); }
+    .exp-item:last-child { border-bottom: none; }
+
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--faint);
+      padding-top: 0.15rem;
+    }
+
+    .exp-role {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .exp-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .exp-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+
+    .cert-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      text-decoration: none;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-card::after {
+      content: '↗';
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--faint);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .cert-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .cert-card:hover::after {
+      color: var(--accent);
+      transform: translate(2px, -2px);
+    }
+
+    .cert-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .cert-info { flex: 1; min-width: 0; }
+
+    .cert-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .cert-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--faint);
+      line-height: 1.6;
+    }
+
+    .cert-issuer {
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      margin-bottom: 0.15rem;
+    }
+
+    /* ── SOFT SKILLS ── */
+    .soft-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .soft-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .soft-item:hover { border-color: var(--accent); color: var(--text); }
+
+    .soft-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── INTERESTS ── */
+    .interests-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .interest-pill {
+      padding: 0.6rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .interest-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(200,240,74,0.05);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+
+    .footer-contact {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer-contact a { color: var(--accent); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 2px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+      .hero-right { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .info-grid { grid-template-columns: 1fr 1fr; }
+      .skills-grid, .projects-grid { grid-template-columns: 1fr; }
+      .cert-grid { grid-template-columns: repeat(2, 1fr); }
+      .soft-grid { grid-template-columns: repeat(2, 1fr); }
+      .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">Portfolio</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" style="border-top:none; padding-top:80px;">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Available for Internships</div>
+    <h1>Rohit<br><em>Shrestha</em></h1>
+    <p class="hero-desc">
+      BCSIT Student at KFA Business School & IT · Aspiring Ethical Hacker · 
+      Building skills in Cybersecurity, Networking, and Information Security from Kathmandu, Nepal.
+    </p>
+    <div class="hero-cta">
+      <a href="mailto:rawheetshrestha72@gmail.com" class="btn btn-primary">Get in Touch ↗</a>
+      <a href="#projects" class="btn btn-outline">View Projects</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="terminal-title">rohit@portfolio ~ whoami</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">→ </span><span class="t-cmd">cat profile.json</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-comment">{</span></div>
+        <div>&nbsp; <span class="t-key">"name"</span>: <span class="t-str">"Rohit Shrestha"</span>,</div>
+        <div>&nbsp; <span class="t-key">"role"</span>: <span class="t-str">"BCSIT Student"</span>,</div>
+        <div>&nbsp; <span class="t-key">"semester"</span>: <span class="t-val">3</span>,</div>
+        <div>&nbsp; <span class="t-key">"focus"</span>: <span class="t-str">"Cybersecurity"</span>,</div>
+        <div>&nbsp; <span class="t-key">"location"</span>: <span class="t-str">"Kathmandu, NP"</span>,</div>
+        <div>&nbsp; <span class="t-key">"gpa_plus2"</span>: <span class="t-val">3.54</span>,</div>
+        <div>&nbsp; <span class="t-key">"open_to"</span>: <span class="t-str">"Internships"</span>,</div>
+        <div>&nbsp; <span class="t-key">"status"</span>: <span class="t-str">"<span style="color:#86efac">● Active</span>"</span></div>
+        <div><span class="t-comment">}</span></div>
+        <div>&nbsp;</div>
+        <div><span class="t-prompt">→ </span><span class="t-cmd">_<span style="animation: blink 1s step-end infinite; display:inline-block">|</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Personal Information</h2>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.1s">
+    <div class="info-grid">
+      <div class="info-cell">
+        <div class="info-cell-label">Full Name</div>
+        <div class="info-cell-val">Rohit Shrestha</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-cell-label">Date of Birth</div>
+        <div class="info-cell-val">12th August, 2005</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-cell-label">Nationality</div>
+        <div class="info-cell-val">Nepali</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-cell-label">Location</div>
+        <div class="info-cell-val">Kathmandu, Nepal</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-cell-label">Languages</div>
+        <div class="info-cell-val">Nepali · English</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-cell-label">Email</div>
+        <div class="info-cell-val" style="font-size:0.85rem">rawheetshrestha72@gmail.com</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.2s">
+    <p class="section-label" style="margin-bottom:1rem">Career Objective</p>
+    <div class="objective-block">
+      Motivated and detail-oriented BCSIT student (3rd Semester) at KFA Business School & IT, 
+      specializing in Cyber Technology and Information Technology. Aspiring Ethical Hacker with 
+      foundational knowledge in cybersecurity, networking, and programming. Seeking internship 
+      and learning opportunities to apply technical skills, gain hands-on experience, and grow 
+      professionally in the fields of Cybersecurity and Information Security.
+    </div>
+  </div>
+
+  <div class="reveal" style="transition-delay:0.3s; margin-top:3rem">
+    <p class="section-label" style="margin-bottom:1rem">Career Interests</p>
+    <div class="interests-row">
+      <div class="interest-pill">Ethical Hacking</div>
+      <div class="interest-pill">Cybersecurity</div>
+      <div class="interest-pill">Information Security</div>
+      <div class="interest-pill">Network Security</div>
+      <div class="interest-pill">Data Science</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="reveal">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Academic Background</h2>
+  </div>
+  <div class="reveal" style="transition-delay:0.15s">
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Stream</th>
+          <th>Institution</th>
+          <th>Year</th>
+          <th>GPA</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Secondary</td>
+          <td>General</td>
+          <td>Kathmandu Xavier Public School</td>
+          <td>2022</td>
+          <td>3.05</td>
+          <td><span class="badge badge-done">Completed</span></td>
+        </tr>
+        <tr>
+          <td>Higher (+2)</td>
+          <td>Management</td>
+          <td>Chelsea World School</td>
+          <td>2024</td>
+          <td>3.54</td>
+          <td><span class="badge badge-done">Completed</span></td>
+        </tr>
+        <tr>
+          <td>Bachelor's</td>
+          <td>Computer Science (BCSIT)</td>
+          <td>KFA Business School & IT</td>
+          <td>2025 –</td>
+          <td>—</td>
+          <td><span class="badge badge-running">Running</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">Technical Expertise</h2>
+  </div>
+  <div class="skills-grid reveal" style="transition-delay:0.15s">
+    <div class="skill-group">
+      <h3>Technical Skills</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Cybersecurity Fundamentals</span>
+        <span class="skill-tag">Networking Basics</span>
+        <span class="skill-tag">Web Development (HTML)</span>
+        <span class="skill-tag">Python Programming</span>
+        <span class="skill-tag">Version Control (Git)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Tools & Technologies</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Cisco Packet Tracer</span>
+        <span class="skill-tag">Windows OS</span>
+        <span class="skill-tag">MS PowerPoint</span>
+        <span class="skill-tag">MS Excel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top:3rem; transition-delay:0.25s">
+    <p class="section-label" style="margin-bottom:1.5rem">Soft Skills</p>
+    <div class="soft-grid">
+      <div class="soft-item"><div class="soft-dot"></div>Communication & Presentation</div>
+      <div class="soft-item"><div class="soft-dot"></div>Leadership & Team Coordination</div>
+      <div class="soft-item"><div class="soft-dot"></div>Planning & Time Management</div>
+      <div class="soft-item"><div class="soft-dot"></div>Problem Solving & Logical Thinking</div>
+      <div class="soft-item"><div class="soft-dot"></div>English Language Proficiency</div>
+      <div class="soft-item"><div class="soft-dot"></div>Basic Cost & Resource Management</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications">
+  <div class="reveal">
+    <p class="section-label">Certifications</p>
+    <h2 class="section-title">Credentials</h2>
+  </div>
+  <div class="cert-grid reveal" style="transition-delay:0.15s">
+
+    <a class="cert-card" href="https://github.com/rohitshrestha0007/Git-Training/blob/main/Git%20Traning.pdf" target="_blank" rel="noopener">
+      <div class="cert-icon">⚙️</div>
+      <div class="cert-info">
+        <div class="cert-issuer">Training Program</div>
+        <div class="cert-name">Git Training</div>
+        <div class="cert-meta">Issued: Dec 15, 2025 &nbsp;·&nbsp; Code: 9589059</div>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://github.com/rohitshrestha0007/Ethical-Hacking-BootCamp/blob/main/Ethical%20Hacking%20bootcamp_page-0001.jpg" target="_blank" rel="noopener">
+      <div class="cert-icon">🔐</div>
+      <div class="cert-info">
+        <div class="cert-issuer">Skillspark Pvt. Ltd</div>
+        <div class="cert-name">Ethical Hacking Bootcamp</div>
+        <div class="cert-meta">Issued: Dec 1, 2025 &nbsp;·&nbsp; Certificate of Participation</div>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://github.com/rohitshrestha0007/Python-For-Begineers/blob/main/python%20begineer.pdf" target="_blank" rel="noopener">
+      <div class="cert-icon">🐍</div>
+      <div class="cert-info">
+        <div class="cert-issuer">Training Program</div>
+        <div class="cert-name">Python for Beginners</div>
+        <div class="cert-meta">Issued: Dec 27, 2025 &nbsp;·&nbsp; Code: 9647543</div>
+      </div>
+    </a>
+
+    <a class="cert-card" href="https://github.com/rohitshrestha0007/Cisco-Badge-Networking-Basics-/blob/main/cisco_badge%5B1%5D.pdf" target="_blank" rel="noopener">
+      <div class="cert-icon">🌐</div>
+      <div class="cert-info">
+        <div class="cert-issuer">Cisco Networking Academy</div>
+        <div class="cert-name">Networking Basics</div>
+        <div class="cert-meta">Issued: Aug 27, 2025 &nbsp;·&nbsp; Certificate of Completion</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Practical Work</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal" style="transition-delay:0.1s">
+      <div class="project-num">01</div>
+      <div class="project-name">Student Result Management System</div>
+      <p class="project-desc">Java application managing 80 students' academic records at KFA Business School & IT. Features console & GUI interfaces, calculates total marks, percentage, pass/fail status and performance reviews across 5 subjects. Implements full OOP — inheritance, encapsulation, polymorphism, and exception handling.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Java</span>
+        <span class="tech-chip">Java Swing</span>
+        <span class="tech-chip">OOP</span>
+        <span class="tech-chip">Inheritance</span>
+        <span class="tech-chip">Exception Handling</span>
+      </div>
+      <a href="https://github.com/rohitshrestha0007/Student-Record-Management-System" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1.1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent);text-decoration:none;border:1px solid rgba(200,240,74,0.25);padding:0.35rem 0.8rem;border-radius:2px;transition:all 0.2s;" onmouseover="this.style.background='rgba(200,240,74,0.08)'" onmouseout="this.style.background='transparent'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        View on GitHub ↗
+      </a>
+    </div>
+    <div class="project-card reveal" style="transition-delay:0.2s">
+      <div class="project-num">02</div>
+      <div class="project-name">Network Simulation & Topology</div>
+      <p class="project-desc">Designed and configured network topologies including LAN setups, subnetting, and basic routing using Cisco Packet Tracer.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Cisco Packet Tracer</span>
+        <span class="tech-chip">Networking</span>
+        <span class="tech-chip">Subnetting</span>
+      </div>
+    </div>
+    <div class="project-card reveal" style="transition-delay:0.3s">
+      <div class="project-num">03</div>
+      <div class="project-name">HTML Web Pages & Python Scripts</div>
+      <p class="project-desc">Developed structured HTML web pages and Python programs as part of coursework, applying programming fundamentals and web structure principles.</p>
+      <div class="project-tech">
+        <span class="tech-chip">HTML</span>
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Git</span>
+      </div>
+    </div>
+    <div class="project-card reveal" style="transition-delay:0.4s">
+      <div class="project-num">04</div>
+      <div class="project-name">Version Control Workflow</div>
+      <p class="project-desc">Practiced Git-based version control workflows — committing, branching, and managing code history for structured collaborative development.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Git</span>
+        <span class="tech-chip">GitHub</span>
+        <span class="tech-chip">CLI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Work & Activities</h2>
+  </div>
+  <div class="exp-list">
+    <div class="exp-item">
+      <div class="exp-date">2025</div>
+      <div>
+        <div class="exp-role">IELTS Tutor</div>
+        <div class="exp-org">KB Education, Bagbazar</div>
+        <div class="exp-desc">Providing IELTS coaching and academic support to students preparing for English proficiency examinations.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">2023 – 2024</div>
+      <div>
+        <div class="exp-role">Student Prefect</div>
+        <div class="exp-org">Chelsea World School, Higher Secondary Level</div>
+        <div class="exp-desc">Leadership role managing student coordination, supervising groups, and leading planning, time management, and basic cost control activities. Strengthened organizational and interpersonal skills.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">2024</div>
+      <div>
+        <div class="exp-role">Basic Bakery Training</div>
+        <div class="exp-org">Zoys Bakery, Thapagaun</div>
+        <div class="exp-desc">Completed a structured bakery course covering food preparation, kitchen management, and production processes.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">2022</div>
+      <div>
+        <div class="exp-role">Barista Intern</div>
+        <div class="exp-org">Old Espresso House, Mid Baneshwor</div>
+        <div class="exp-desc">Hands-on internship in a professional café environment, developing customer service and operational skills.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">2022</div>
+      <div>
+        <div class="exp-role">Diploma in Photography</div>
+        <div class="exp-org">Eye Service Organization</div>
+        <div class="exp-desc">Completed a formal photography diploma covering composition, lighting, and digital photo editing.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">—</div>
+      <div>
+        <div class="exp-role">Cashier</div>
+        <div class="exp-org">Everest Fast Food, New Road</div>
+        <div class="exp-desc">Managed cash transactions, customer interactions, and daily sales operations in a fast-paced food service environment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact" style="text-align:center; padding: 6rem 4rem;">
+  <div class="reveal">
+    <p class="section-label" style="justify-content:center; display:flex">Contact</p>
+    <h2 class="section-title" style="max-width:500px; margin:0 auto 1.5rem">Let's Connect</h2>
+    <p style="color:var(--muted); max-width:420px; margin:0 auto 2.5rem; font-size:0.95rem; line-height:1.8;">
+      Open to internships, collaborations, and learning opportunities in Cybersecurity and IT.
+    </p>
+    <a href="mailto:rawheetshrestha72@gmail.com" class="btn btn-primary" style="font-size:0.9rem; padding:1rem 2.4rem;">
+      rawheetshrestha72@gmail.com ↗
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-name">Rohit Shrestha</div>
+  <div class="footer-contact">
+    Kathmandu, Nepal &nbsp;·&nbsp; +977-9843608394 &nbsp;·&nbsp;
+    <a href="mailto:rawheetshrestha72@gmail.com">rawheetshrestha72@gmail.com</a>
+  </div>
+</footer>
+
+<style>
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
+
+<script>
+  // Intersection Observer for scroll reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal, .exp-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
